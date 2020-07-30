@@ -127,6 +127,13 @@ export function createMainWindow(
     ...browserwindowOptions,
   });
 
+  mainWindow.webContents.session.setPreloads([path.join(__dirname, 'preload-get-display-media-polyfill.js')])
+  mainWindow.webContents.session.setPermissionCheckHandler((webContents, permission, details) => {
+    return true
+  })
+  mainWindow.webContents.session.setPermissionRequestHandler((webContents, permission, callback, details) => {
+    callback(true)
+  })
   mainWindowState.manage(mainWindow);
 
   // after first run, no longer force maximize to be true
