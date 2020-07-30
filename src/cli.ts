@@ -278,6 +278,10 @@ if (require.main === module) {
     .option(
       '--darwin-dark-mode-support',
       '(macOS only) enable Dark Mode support on macOS 10.14+',
+    )
+    .option(
+      '--default-protocol <protocol>',
+      "set app as default procol client for passed in string without ://"
     );
 
   try {

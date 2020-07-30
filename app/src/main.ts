@@ -37,6 +37,10 @@ if (appArgs.processEnvs) {
 
 let mainWindow;
 
+if (appArgs.defaultProtocol) {
+  app.setAsDefaultProtocolClient(appArgs.defaultProtocol);
+}
+
 if (typeof appArgs.flashPluginDir === 'string') {
   app.commandLine.appendSwitch('ppapi-flash-path', appArgs.flashPluginDir);
 } else if (appArgs.flashPluginDir) {
