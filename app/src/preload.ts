@@ -3,6 +3,10 @@
  * Note: This needs to be attached **prior to imports**, as imports
  * would delay the attachment till after the event has been raised.
  */
+
+import { remote, ipcRenderer } from 'electron';
+
+window['electron'] = Object.assign({}, remote.process);
 document.addEventListener('DOMContentLoaded', () => {
   injectScripts(); // eslint-disable-line @typescript-eslint/no-use-before-define
 });
@@ -10,7 +14,6 @@ document.addEventListener('DOMContentLoaded', () => {
 import * as fs from 'fs';
 import * as path from 'path';
 
-import { ipcRenderer } from 'electron';
 
 const INJECT_JS_PATH = path.join(__dirname, '..', 'inject/inject.js');
 /**
