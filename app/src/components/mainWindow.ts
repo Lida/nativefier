@@ -1,7 +1,7 @@
 import * as fs from 'fs';
 import * as path from 'path';
 
-import { BrowserWindow, shell, ipcMain, dialog, Event } from 'electron';
+import { BrowserWindow, shell, ipcMain, dialog, Event, session } from 'electron';
 import windowStateKeeper from 'electron-window-state';
 
 import {
@@ -405,5 +405,11 @@ export function createMainWindow(
     }
   });
 
+  session.defaultSession.webRequest.onBeforeSendHeaders((details, callback) => {
+    if (options.targetUrl != details.url && linkIsInternal(options.targetUrl, details.url, options.internalUrls) && options.interalUrlsUserAgent) {
+      details.requestHeaders['User-Agent'] = options.interalUrlsUserAgent;
+    }
+    callback({ cancel: false, requestHeaders: details.requestHeaders });
+  });
   return mainWindow;
 }

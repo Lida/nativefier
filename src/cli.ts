@@ -225,6 +225,10 @@ if (require.main === module) {
       'regex of URLs to consider "internal"; all other URLs will be opened in an external browser. Default: URLs on same second-level domain as app',
     )
     .option(
+      '--internal-urls-user-agent <value>',
+      'user agent to use when opening pages other than the main url',
+    )
+    .option(
       '--proxy-rules <value>',
       'proxy rules; see https://www.electronjs.org/docs/api/session#sessetproxyconfig',
     )
