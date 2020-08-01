@@ -415,5 +415,12 @@ export function createMainWindow(
     }
     callback({ cancel: false, requestHeaders: details.requestHeaders });
   });
+
+  const initialOpenListener = () => {
+    mainWindow.webContents.send('open-url', process.argv);
+    mainWindow.webContents.removeListener('did-finish-load', initialOpenListener); // perform only once
+  }
+  mainWindow.webContents.on('did-finish-load', initialOpenListener);
+
   return mainWindow;
 }

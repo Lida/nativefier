@@ -6,7 +6,7 @@
 
 import { remote, ipcRenderer } from 'electron';
 
-window['electron'] = Object.assign({}, remote.process);
+window['isElectron'] = true;
 window['clearStorageData'] = function() {
   remote.session.defaultSession.clearStorageData();
 }
