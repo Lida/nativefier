@@ -221,6 +221,10 @@ export function createMainWindow(
     if (!linkIsInternal(options.targetUrl, urlToGo, options.internalUrls)) {
       event.preventDefault();
       shell.openExternal(urlToGo); // eslint-disable-line @typescript-eslint/no-floating-promises
+    } else if (options.targetUrl != urlToGo && options.internalUrlsUserAgent) {
+      event["sender"]["userAgent"] = options.internalUrlsUserAgent;
+    } else {
+      event["sender"]["userAgent"] = options.userAgent;
     }
   };
 
@@ -406,8 +410,8 @@ export function createMainWindow(
   });
 
   session.defaultSession.webRequest.onBeforeSendHeaders((details, callback) => {
-    if (options.targetUrl != details.url && linkIsInternal(options.targetUrl, details.url, options.internalUrls) && options.interalUrlsUserAgent) {
-      details.requestHeaders['User-Agent'] = options.interalUrlsUserAgent;
+    if (options.targetUrl != details.url && linkIsInternal(options.targetUrl, details.url, options.internalUrls) && options.internalUrlsUserAgent) {
+      details.requestHeaders['User-Agent'] = options.internalUrlsUserAgent;
     }
     callback({ cancel: false, requestHeaders: details.requestHeaders });
   });
