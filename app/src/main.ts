@@ -35,7 +35,7 @@ if (appArgs.processEnvs) {
   }
 }
 
-let mainWindow;
+let mainWindow: Electron.BrowserWindow;
 
 if (appArgs.defaultProtocol) {
   app.setAsDefaultProtocolClient(appArgs.defaultProtocol);
@@ -135,7 +135,7 @@ const shouldQuit = appArgs.singleInstance && !app.requestSingleInstanceLock();
 if (shouldQuit) {
   app.quit();
 } else {
-  app.on('second-instance', () => {
+  app.on('second-instance', (event, commandLine) => {
     if (mainWindow) {
       if (!mainWindow.isVisible()) {
         // try
@@ -147,6 +147,7 @@ if (shouldQuit) {
       }
       mainWindow.focus();
     }
+    mainWindow.webContents.send('open-url', commandLine);
   });
 
   app.on('ready', () => {

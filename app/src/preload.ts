@@ -7,6 +7,9 @@
 import { remote, ipcRenderer } from 'electron';
 
 window['electron'] = Object.assign({}, remote.process);
+window['clearStorageData'] = function() {
+  remote.session.defaultSession.clearStorageData();
+}
 document.addEventListener('DOMContentLoaded', () => {
   injectScripts(); // eslint-disable-line @typescript-eslint/no-use-before-define
 });
@@ -66,3 +69,8 @@ ipcRenderer.on('params', (event, message) => {
 ipcRenderer.on('debug', (event, message) => {
   console.info('debug:', message);
 });
+
+ipcRenderer.on('open-url', (event, message) => {
+  window.postMessage({type: 'open-url', message: message}, window.location.href);
+  console.info('open-url', message);
+})
