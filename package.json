@@ -62,6 +62,7 @@
     "cheerio": "^1.0.0-rc.3",
     "commander": "4.x",
     "electron-packager": "15.x",
+    "electron-winstaller": "^4.0.1",
     "gitcloud": "0.x",
     "hasbin": "1.x",
     "lodash": "4.x",

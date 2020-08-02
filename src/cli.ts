@@ -4,9 +4,11 @@ import 'source-map-support/register';
 import * as commander from 'commander';
 import * as dns from 'dns';
 import * as log from 'loglevel';
+import { dirname } from 'path';
 
 import { buildNativefierApp } from './main';
 import { isWindows } from './helpers/helpers';
+import { createWindowsInstaller } from 'electron-winstaller';
 
 // package.json is `require`d to let tsc strip the `src` folder by determining
 // baseUrl=src. A static import would prevent that and cause an ugly extra "src" folder
@@ -286,7 +288,13 @@ if (require.main === module) {
     .option(
       '--default-protocol <protocol>',
       "set app as default procol client for passed in string without ://"
-    );
+    )
+    .option(
+      '--installer <json-string>',
+      "JSON file defining Squarrel installer options",
+      parseJson
+    )
+    ;
 
   try {
     args.parse(sanitizedArgs);
@@ -307,6 +315,12 @@ if (require.main === module) {
         return;
       }
       log.info(`App built to ${appPath}`);
+      if (options["installer"]) {
+        createWindowsInstaller(Object.assign({
+          appDirectory: appPath,
+          outputDirectory: dirname(appPath)
+        }, options["installer"]));
+      }
     })
     .catch((error) => {
       log.error('Error during build. Run with --verbose for details.', error);
