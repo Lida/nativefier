@@ -106,7 +106,7 @@ function normalizeAppName(appName: string, url: string): string {
   hash.update(url);
   const postFixHash = hash.digest('hex').substring(0, 6);
   const normalized = kebabCase(appName.toLowerCase());
-  return `${normalized}-nativefier-${postFixHash}`;
+  return `${normalized}_nativefier_${postFixHash}`;
 }
 
 function changeAppPackageJsonName(
