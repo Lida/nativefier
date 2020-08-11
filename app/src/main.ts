@@ -184,3 +184,6 @@ app.on('login', (event, webContents, request, authInfo, callback) => {
     createLoginWindow(callback);
   }
 });
+
+// To allow dev notification
+app.setAppUserModelId(process.execPath);
